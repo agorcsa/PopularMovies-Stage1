@@ -46,30 +46,17 @@ public class JsonUtils {
     public static final String RELEASE_DATE = "release_date";
 
 
-    public static String buildPopularityUrl() throws IOException {
-        Uri.Builder popularityBuilder = new Uri.Builder();
-        popularityBuilder.scheme("https")
+    public static String buildUrl(String sortType) throws IOException {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
                 .authority("api.themoviedb.org")
                 .appendPath("3")
                 .appendPath("movie")
-                .appendPath(POPULARITY)
+                .appendPath(sortType)
                 .appendQueryParameter(QUERY_PARAM, API_KEY)
                 .build();
-        String popularityUrl = popularityBuilder.build().toString();
-        return popularityUrl;
-    }
-
-    public static String buildRatingUrl() throws IOException {
-        Uri.Builder ratingBuilder = new Uri.Builder();
-        ratingBuilder.scheme("https")
-                .authority("api.themoviedb.org")
-                .appendPath("3")
-                .appendPath("movie")
-                .appendPath(USER_RATING)
-                .appendQueryParameter(QUERY_PARAM, API_KEY)
-                .build();
-        String ratingUrl = ratingBuilder.build().toString();
-        return ratingUrl;
+        String url = builder.build().toString();
+        return url;
     }
 
     /**

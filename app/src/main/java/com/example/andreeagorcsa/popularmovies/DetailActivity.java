@@ -25,15 +25,12 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
-    public static final String EXTRA_POSITION = "extra_position";
-    private static final int DEFAULT_POSITION = -1;
-
     @BindView(R.id.originalTitleLabel)
     TextView originalTitleLabel;
     @BindView(R.id.originalTitle)
     TextView originalTitle;
     @BindView(R.id.moviePoster)
-    TextView moviePoster;
+    ImageView moviePoster;
     @BindView(R.id.plotSynopsisLabel)
     TextView plotSynopsisLabel;
     @BindView(R.id.plotSynopsis)
@@ -55,34 +52,18 @@ public class DetailActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        if (intent == null) {
+        Bundle bundle = getIntent().getExtras();
+        Movie currentMovie = bundle.getParcelable(MainActivity.MOVIE_OBJECT_FOR_PARCEL);
+        if (currentMovie == null) {
             closeOnError();
         }
 
-        int position = intent.getIntExtra(EXTRA_POSITION, DEFAULT_POSITION);
-        if (position == DEFAULT_POSITION) {
-            // EXTRA_POSITION not found in intent
-            closeOnError();
-            return;
-        }
-
-        String movies = JsonUtils.BASE_URL + JsonUtils.POSTER_SIZE + moviePoster;
-        // Move from one sandwich to the other
-        String json = movies[position];
-        Movie movie = (Movie) (JsonUtils.parseMovieJson(json);
-        if (movie == null) {
-            // Movie data unavailable
-            closeOnError();
-            return;
-        }
-
-        populateDetailActivity(movie);
+        populateDetailActivity(currentMovie);
         Picasso.with(this)
-                .load(movie.getPosterPath())
-                .into((Target) moviePoster);
+                .load(JsonUtils.POSTER_BASE_URL + JsonUtils.POSTER_SIZE + currentMovie.getPosterPath())
+                .into(moviePoster);
 
-        setTitle(movie.getOriginalTitle());
+        setTitle(currentMovie.getOriginalTitle());
     }
 
     private void closeOnError() {
@@ -94,19 +75,6 @@ public class DetailActivity extends AppCompatActivity {
 
         if (movie == null) {
             return;
-        }
-
-        if (movie.getOriginalTitle() == null) {
-            originalTitleLabel.setVisibility(View.GONE);
-            originalTitle.setVisibility(View.GONE);
-        } else {
-            originalTitle.setText(movie.getOriginalTitle());
-        }
-
-        if (movie.getPosterPath() == null) {
-            moviePoster.setVisibility(View.GONE);
-        } else {
-            moviePoster.setText(movie.getPosterPath());
         }
 
         if (movie.getOverview() == null) {
@@ -129,6 +97,7 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             releaseDate.setText(movie.getReleaseDate());
         }
+
     }
 }
 

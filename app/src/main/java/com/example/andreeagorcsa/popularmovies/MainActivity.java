@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     public static final String LOG_TAG = MainActivity.class.getName();
 
-    private static final String MOVIE_OBJECT_FOR_PARCEL = "movie_object";
+    public static final String MOVIE_OBJECT_FOR_PARCEL = "movie_object";
 
     private static final String SHARED_PREFERENCES_KEY = "shared_preferences_key";
     private static final String SORT_KEY = "sort_key";
@@ -87,11 +87,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private void fetchMovies(String sortType) {
 
         if (mMovieList == null || mMovieList.size() == 0) return;
-        if (sortType.equals(JsonUtils.USER_RATING)) {
-           // JsonUtils.fetchMovieData(JsonUtils.buildRatingUrl(String requestURL));
-        } else if (sortType.equals(JsonUtils.POPULARITY)) {
-           // JsonUtils.fetchMovieData(JsonUtils.buildPopularityUrl(String requestUrl));
-        }
+
     }
 
     /*
