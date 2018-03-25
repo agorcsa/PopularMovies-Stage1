@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/originalTitleLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Original Tiltle:"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/originalTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="the title of the movie"
+        android:layout_marginBottom="10dp" />
+
+    <ImageView
+        android:id="@+id/moviePoster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/plotSynopsisLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Plot Synopsis:"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/plotSynopsis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="the description of the plot"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/userRatingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Rating:"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/userRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="the rating of the user"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/releaseDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Release Date:"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/releaseDate"
+        tools:text="the date of the movie release"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
