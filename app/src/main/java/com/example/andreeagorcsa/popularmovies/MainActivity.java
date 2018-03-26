@@ -44,13 +44,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private static final String SHARED_PREFERENCES_KEY = "shared_preferences_key";
     private static final String SORT_KEY = "sort_key";
 
-    @BindView(R.id.recycleView)
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
 
     private MovieAdapter mMovieAdapter;
     private List<Movie> mMovieList;
-
-    private String movieBundle;
 
     private String sortType;
 
@@ -60,8 +57,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
-
+        mRecyclerView = findViewById(R.id.recycleView);
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) ? 2 : 4));
@@ -79,15 +75,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     }
 
     /*
-    * fetch movie based on sort type
-    * and create movies list
+    * fetches a movie based on sort type
+    * and creates a movies list
     * @param sortType -> Popular or Top Rated
     * @returns List<Movie>
     * */
     private void fetchMovies(String sortType) {
 
         if (mMovieList == null || mMovieList.size() == 0) return;
-
+        fetchMovies(sortType);
     }
 
     /*
@@ -114,17 +110,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         }
         return super.onCreateOptionsMenu(menu);
     }
-    //update sort key when sort type is changed
-    private void updateSortKey() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, 0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(SORT_KEY, sortType);
-        editor.apply();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //fetch movies list based on selected sort ket and persist sort key and update menu item text
+        //fetch movies list based on selected sort key
         switch (item.getItemId()) {
             case R.id.highest_rated:
                     sortType = JsonUtils.USER_RATING;
