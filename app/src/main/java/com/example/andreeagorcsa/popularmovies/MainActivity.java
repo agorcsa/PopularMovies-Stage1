@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -28,6 +29,7 @@ import com.example.andreeagorcsa.popularmovies.MovieAdapter;
 
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -63,27 +65,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) ? 2 : 4));
 
         mMovieAdapter = new MovieAdapter(MainActivity.this);
-        mRecyclerView.setAdapter(mMovieAdapter);
+        mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this));
+        mMovieAdapter.setmMovieList(mMovieList);
 
         sortType = getSharedPreferences(SHARED_PREFERENCES_KEY, 0).getString(SORT_KEY, JsonUtils.POPULARITY);
+        new MovieAsyncTask().execute(JsonUtils.POPULARITY);
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    /*
-    * fetches a movie based on sort type
-    * and creates a movies list
-    * @param sortType -> Popular or Top Rated
-    * @returns List<Movie>
-    * */
-    private void fetchMovies(String sortType) {
-
-        if (mMovieList == null || mMovieList.size() == 0) return;
-        fetchMovies(sortType);
     }
 
     /*
@@ -116,20 +108,52 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         //fetch movies list based on selected sort key
         switch (item.getItemId()) {
             case R.id.highest_rated:
-                    sortType = JsonUtils.USER_RATING;
-                    fetchMovies(sortType);
-                    mMovieAdapter.notifyDataSetChanged();
-                    item.setTitle(getResources().getString(R.string.sort_action_highest_rated));
-                    return true;
+                sortType = JsonUtils.USER_RATING;
+                JsonUtils.fetchMovieData(sortType);
+                mMovieAdapter.notifyDataSetChanged();
+                item.setTitle(getResources().getString(R.string.sort_action_highest_rated));
+                return true;
             case R.id.most_popular:
-                    sortType = JsonUtils.POPULARITY;
-                    fetchMovies(sortType);
-                    mMovieAdapter.notifyDataSetChanged();
-                    item.setTitle(getResources().getString(R.string.sort_action_most_popular));
-                    return true;
+                sortType = JsonUtils.POPULARITY;
+                JsonUtils.fetchMovieData(sortType);
+                mMovieAdapter.notifyDataSetChanged();
+                item.setTitle(getResources().getString(R.string.sort_action_most_popular));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class MovieAsyncTask extends AsyncTask<String, Void, List<Movie>> {
+
+        @Override
+        protected void onPreExecute() {
+            mMovieAdapter = (MovieAdapter) mRecyclerView.getAdapter();
+        }
+
+        @Override
+        protected List<Movie> doInBackground(String... url) {
+            try {
+                String popularityUrl = JsonUtils.buildUrl(JsonUtils.POPULARITY);
+                mMovieList = JsonUtils.fetchMovieData(popularityUrl);
+
+                Thread.sleep(1000);
+                } catch (IOException e) {
+                 e.printStackTrace();
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return mMovieList;
+        }
+
+
+        @Override
+        protected void onPostExecute(List<Movie> movies) {
+            mMovieList = movies;
+            mMovieAdapter.setmMovieList(movies);
+        }
     }
 }
 
