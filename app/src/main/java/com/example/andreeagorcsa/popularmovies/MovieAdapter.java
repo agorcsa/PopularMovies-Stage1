@@ -61,13 +61,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
 
         public MovieItemViewHolder(View itemView) {
             super(itemView);
-            movieItemImageView = (ImageView) itemView.findViewById(R.id.imv_movie_item);
+            movieItemImageView = itemView.findViewById(R.id.imv_movie_item);
             itemView.setOnClickListener(this);
         }
 
         void bind(Movie movie) {
             Picasso.with(itemView.getContext())
-                    .load(JsonUtils.BASE_URL + JsonUtils.POSTER_SIZE + movie.getPosterPath())
+                    .load(movie.getPosterPath())
                     .placeholder(R.drawable.pop_corn_movies)
                     .into(movieItemImageView);
         }
