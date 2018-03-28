@@ -42,7 +42,7 @@ public class Movie {
         return posterPath;
     }
 
-    public void setMoviePoster(String moviePoster) {
+    public void setPosterPoster(String moviePoster) {
         this.posterPath = moviePoster;
     }
 
