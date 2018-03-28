@@ -152,7 +152,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         @Override
         protected void onPostExecute(List<Movie> movies) {
             mMovieList = movies;
-            mMovieAdapter.setmMovieList(movies);
+            if (movies != null) {
+                mMovieAdapter.setmMovieList(movies);
+            } else {
+                throw new NullPointerException("Your movie list is empty");
+            }
         }
     }
 }
