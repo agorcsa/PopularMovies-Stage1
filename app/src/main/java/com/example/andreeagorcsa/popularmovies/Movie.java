@@ -1,9 +1,11 @@
 package com.example.andreeagorcsa.popularmovies;
 
+import org.parceler.Parcel;
+
 /**
  * Created by andreeagorcsa on 2018. 03. 07..
  */
-
+@Parcel
 public class Movie {
 
     private String originalTitle;
@@ -14,6 +16,7 @@ public class Movie {
     private double popularity;
     private String releaseDate;
 
+    public Movie() {}
 
     // Movie constructor
     public Movie(String originalTitle, String posterPath, String overview, double voteAverage, double popularity, String releaseDate) {
