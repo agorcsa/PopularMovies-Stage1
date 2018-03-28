@@ -80,15 +80,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     /*
     * Callback interface
-    * Invoked when movie item from rcv is clicked to start DetailsActivity and pass in movie object as a parcel
+    * Invoked when movie item from recycleview is clicked to start DetailsActivity and pass in movie object as a parcel
     * */
     @Override
     public void onItemClick(Movie movie) {
-        Intent i = new Intent(MainActivity.this, DetailActivity.class);
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(MOVIE_OBJECT_FOR_PARCEL, Parcels.wrap(movie));
-        i.putExtras(bundle);
-        startActivity(i);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
