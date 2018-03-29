@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     public static final String LOG_TAG = MainActivity.class.getName();
 
     public static final String MOVIE_OBJECT_FOR_PARCEL = "movie_object";
+    private static final String MOVIE_STATE_KEY = "movie_list";
 
     private static final String SHARED_PREFERENCES_KEY = "shared_preferences_key";
     private static final String SORT_KEY = "sort_key";
@@ -78,10 +79,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         super.onResume();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(MOVIE_STATE_KEY, Parcels.wrap(mMovieList));
+    }
+
     /*
-    * Callback interface
-    * Invoked when movie item from recycleview is clicked to start DetailsActivity and pass in movie object as a parcel
-    * */
+        * Callback interface
+        * Invoked when movie item from recycleview is clicked to start DetailsActivity and pass in movie object as a parcel
+        * */
     @Override
     public void onItemClick(Movie movie) {
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
