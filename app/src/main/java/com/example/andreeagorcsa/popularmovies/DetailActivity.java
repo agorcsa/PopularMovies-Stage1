@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import org.parceler.Parcels;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
@@ -52,8 +53,8 @@ public class DetailActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Bundle bundle = getIntent().getExtras();
-        Movie currentMovie = bundle.getParcelable(MainActivity.MOVIE_OBJECT_FOR_PARCEL);
+        Movie currentMovie = Parcels.unwrap(getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT_FOR_PARCEL));
+
         if (currentMovie == null) {
             closeOnError();
         }
