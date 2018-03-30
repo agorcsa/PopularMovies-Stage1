@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         //set menu item title based on sort key
-        if (sortType.equals(JsonUtils.USER_RATING)) {
+        if (sortType.equals(JsonUtils.POPULARITY)) {
             menu.getItem(0).setTitle(getResources().getString(R.string.sort_action_highest_rated));
         } else {
             menu.getItem(0).setTitle(getResources().getString(R.string.sort_action_most_popular));
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         //fetch movies list based on selected sort key
         switch (item.getItemId()) {
             case R.id.highest_rated:
-                sortType = JsonUtils.USER_RATING;
+                sortType = JsonUtils.OVERVIEW;
                 JsonUtils.fetchMovieData(sortType);
                 mMovieAdapter.notifyDataSetChanged();
                 item.setTitle(getResources().getString(R.string.sort_action_highest_rated));
