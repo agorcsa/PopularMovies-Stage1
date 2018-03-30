@@ -38,10 +38,10 @@ public class JsonUtils {
     public static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     public static final String POSTER_SIZE = "w185";
     public static final String POSTER_PATH = "poster_path";
-    public static final String PLOT_SYNOPSIS = "overview";
+    public static final String OVERVIEW = "overview";
 
     public static final String POPULARITY = "popular";
-    public static final String USER_RATING = "vote_average";
+    public static final String VOTE_AVERAGE = "vote_average";
 
     public static final String RELEASE_DATE = "release_date";
 
@@ -151,17 +151,19 @@ public class JsonUtils {
 
                 String originalTitle = movieObject.optString(ORIGINAL_TITLE);
 
-                String moviePoster = movieObject.optString(POSTER_PATH);
+                String posterPath = movieObject.optString(POSTER_PATH);
 
-                String plotSynopsis = movieObject.optString(PLOT_SYNOPSIS);
+                String moviePoster = POSTER_BASE_URL + POSTER_SIZE + posterPath;
 
-                double rating = movieObject.optDouble(USER_RATING);
+                String overview = movieObject.optString(OVERVIEW);
+
+                double voteAverage = movieObject.optDouble(VOTE_AVERAGE);
 
                 double popularity = movieObject.optDouble(POPULARITY);
 
                 String releaseDate = movieObject.optString(RELEASE_DATE);
 
-                Movie movie = new Movie(originalTitle, POSTER_BASE_URL + POSTER_SIZE + moviePoster, plotSynopsis, rating, popularity, releaseDate);
+                Movie movie = new Movie(originalTitle, moviePoster, overview, voteAverage, releaseDate);
                 movieList.add(movie);
 
             }

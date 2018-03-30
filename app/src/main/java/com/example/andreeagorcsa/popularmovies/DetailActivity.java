@@ -26,22 +26,14 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
-    @BindView(R.id.originalTitleLabel)
-    TextView originalTitleLabel;
     @BindView(R.id.originalTitle)
     TextView originalTitle;
     @BindView(R.id.moviePoster)
     ImageView moviePoster;
-    @BindView(R.id.plotSynopsisLabel)
-    TextView plotSynopsisLabel;
     @BindView(R.id.plotSynopsis)
     TextView plotSynopsis;
-    @BindView(R.id.userRatingLabel)
-    TextView userRatingLabel;
     @BindView(R.id.userRating)
     TextView userRating;
-    @BindView(R.id.releaseDateLabel)
-    TextView releaseDateLabel;
     @BindView(R.id.releaseDate)
     TextView releaseDate;
 
@@ -61,10 +53,8 @@ public class DetailActivity extends AppCompatActivity {
 
         populateDetailActivity(currentMovie);
         Picasso.with(this)
-                .load(JsonUtils.POSTER_BASE_URL + JsonUtils.POSTER_SIZE + currentMovie.getPosterPath())
+                .load(currentMovie.getPosterPath())
                 .into(moviePoster);
-
-        setTitle(currentMovie.getOriginalTitle());
     }
 
     private void closeOnError() {
@@ -77,28 +67,10 @@ public class DetailActivity extends AppCompatActivity {
         if (movie == null) {
             return;
         }
-
-        if (movie.getOverview() == null) {
-            plotSynopsisLabel.setVisibility(View.GONE);
-            plotSynopsis.setVisibility(View.GONE);
-        } else {
-            plotSynopsis.setText(movie.getOverview());
-        }
-
-        if (movie.getVoteAverage() == null) {
-            userRatingLabel.setVisibility(View.GONE);
-            userRating.setVisibility(View.GONE);
-        } else {
-            userRating.setText(movie.getVoteAverage());
-        }
-
-        if (movie.getReleaseDate() == null) {
-            releaseDateLabel.setVisibility(View.GONE);
-            releaseDate.setVisibility(View.GONE);
-        } else {
-            releaseDate.setText(movie.getReleaseDate());
-        }
-
+        originalTitle.setText(movie.getOriginalTitle());
+        plotSynopsis.setText(movie.getOverview());
+        userRating.setText(movie.getVoteAverage());
+        releaseDate.setText(movie.getReleaseDate());
     }
 }
 

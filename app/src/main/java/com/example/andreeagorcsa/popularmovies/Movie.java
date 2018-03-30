@@ -8,23 +8,21 @@ import org.parceler.Parcel;
 @Parcel
 public class Movie {
 
-    private String originalTitle;
-    private String posterPath;
-    private String finalUrl;
-    private String overview;
-    private double voteAverage;
-    private double popularity;
-    private String releaseDate;
+    public String originalTitle;
+    public String moviePoster;
+    public String finalUrl;
+    public String plotSynopsis;
+    public double userRating;
+    public String releaseDate;
 
     public Movie() {}
 
     // Movie constructor
-    public Movie(String originalTitle, String posterPath, String overview, double voteAverage, double popularity, String releaseDate) {
+    public Movie(String originalTitle, String moviePoster, String plotSynopsis, double userRating, String releaseDate) {
         this.originalTitle = originalTitle;
-        this.posterPath = posterPath;
-        this.overview = overview;
-        this.voteAverage = voteAverage;
-        this.popularity = popularity;
+        this.moviePoster = moviePoster;
+        this.plotSynopsis = plotSynopsis;
+        this.userRating = userRating;
         this.releaseDate = releaseDate;
     }
 
@@ -36,45 +34,36 @@ public class Movie {
     public String getOriginalTitle() {
         return originalTitle;
     }
-
     public void setOriginalTitle(String originalTitle) {
         this.originalTitle = originalTitle;
     }
 
     public String getPosterPath() {
-        return posterPath;
+        return moviePoster;
     }
 
     public void setPosterPoster(String moviePoster) {
-        this.posterPath = moviePoster;
+        this.moviePoster = moviePoster;
     }
 
     public String getOverview() {
-        return overview;
+        return "Plot Synopsis: "+ "\n" + plotSynopsis;
     }
 
     public void setOverview(String overview) {
-        this.overview = overview;
+        this.plotSynopsis = plotSynopsis;
     }
 
     public String getVoteAverage() {
-        return "Rating: " + voteAverage;
+        return "User Rating: " + userRating;
     }
 
     public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
-    }
-
-    public String getPopularity() {
-        return "Popularity: " + popularity;
-    }
-
-    public void setPopularity(double popularity) {
-        this.popularity = popularity;
+        this.userRating = voteAverage;
     }
 
     public String getReleaseDate() {
-        return releaseDate;
+        return "Release Date: " + releaseDate;
     }
 
     public void setReleaseDate(String releaseDate) {
@@ -86,11 +75,10 @@ public class Movie {
     public String toString() {
         return "Movie{" +
                 "poster_path='" + finalUrl + '\'' +
-                ", overview='" + JsonUtils.PLOT_SYNOPSIS + '\'' +
+                ", overview='" + JsonUtils.OVERVIEW+ '\'' +
                 ", release_date='" + JsonUtils.RELEASE_DATE + '\'' +
                 ", original_title='" + JsonUtils.ORIGINAL_TITLE + '\'' +
-                ", popularity='" + JsonUtils.POPULARITY + '\'' +
-                ", vote_average='" + JsonUtils.USER_RATING + '\'' +
+                ", vote_average='" + JsonUtils.VOTE_AVERAGE + '\'' +
                 '}';
     }
 }
