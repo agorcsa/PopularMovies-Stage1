@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     private static final String SHARED_PREFERENCES_KEY = "shared_preferences_key";
     private static final String SORT_KEY = "sort_key";
+
+    private static final String HIGHEST_RATED = "highest_rated";
+    private static final String POPULAR = "popular";
 
     private RecyclerView mRecyclerView;
 
@@ -100,34 +104,42 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        //set menu item title based on sort key
-        if (sortType.equals(JsonUtils.POPULARITY)) {
-            menu.getItem(0).setTitle(getResources().getString(R.string.sort_action_highest_rated));
-        } else {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        if (sortType.equals(POPULAR)) {
             menu.getItem(0).setTitle(getResources().getString(R.string.sort_action_most_popular));
+        } else {
+            menu.getItem(0).setTitle(getResources().getString(R.string.sort_action_highest_rated));
         }
         return super.onCreateOptionsMenu(menu);
     }
 
+
+    private void updateSortKey() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SORT_KEY, sortType);
+        editor.apply();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //fetch movies list based on selected sort key
+        //fetch movies list based on selected sort ket and persist sort key and update menu item text
         switch (item.getItemId()) {
-            case R.id.highest_rated:
-                sortType = JsonUtils.OVERVIEW;
-                JsonUtils.fetchMovieData(sortType);
-                mMovieAdapter.notifyDataSetChanged();
-                item.setTitle(getResources().getString(R.string.sort_action_highest_rated));
-                return true;
-            case R.id.most_popular:
-                sortType = JsonUtils.POPULARITY;
-                JsonUtils.fetchMovieData(sortType);
-                mMovieAdapter.notifyDataSetChanged();
-                item.setTitle(getResources().getString(R.string.sort_action_most_popular));
+            case R.id.sort_highest_rated:
+                    sortType = HIGHEST_RATED;
+                    JsonUtils.fetchMovieData(sortType);
+                    mMovieAdapter.notifyDataSetChanged();
+                    item.setTitle(getResources().getString(R.string.sort_action_highest_rated));
+                    return true;
+            case R.id.sort_most_popular:
+                    sortType = POPULAR;
+                    JsonUtils.fetchMovieData(sortType);
+                    mMovieAdapter.notifyDataSetChanged();
+                    item.setTitle(getResources().getString(R.string.sort_action_most_popular));
                 return true;
         }
-
+        updateSortKey();
         return super.onOptionsItemSelected(item);
     }
 
