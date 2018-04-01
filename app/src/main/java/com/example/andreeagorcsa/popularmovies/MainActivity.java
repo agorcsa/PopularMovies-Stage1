@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private static final String SHARED_PREFERENCES_KEY = "shared_preferences_key";
     private static final String SORT_KEY = "sort_key";
 
-    private static final String HIGHEST_RATED = "top_rated";
+    private static final String TOP_RATED = "top_rated";
     private static final String POPULAR = "popular";
 
     private RecyclerView mRecyclerView;
@@ -127,23 +127,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         //fetch movies list based on selected sort ket and persist sort key and update menu item text
         switch (item.getItemId()) {
             case R.id.sort_highest_rated:
-                    sortType = HIGHEST_RATED;
-                try {
-                    JsonUtils.fetchMovieData(JsonUtils.buildUrl(sortType));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mMovieAdapter.notifyDataSetChanged();
+                    sortType = TOP_RATED;
+                    new MovieAsyncTask().execute(TOP_RATED);
+                    mMovieAdapter.notifyDataSetChanged();
                     item.setTitle(getResources().getString(R.string.sort_action_highest_rated));
                     return true;
             case R.id.sort_most_popular:
                     sortType = POPULAR;
-                try {
-                    JsonUtils.fetchMovieData(JsonUtils.buildUrl(sortType));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mMovieAdapter.notifyDataSetChanged();
+                    new MovieAsyncTask().execute(POPULAR);
+                    mMovieAdapter.notifyDataSetChanged();
                     item.setTitle(getResources().getString(R.string.sort_action_most_popular));
                 return true;
         }
@@ -161,8 +153,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         @Override
         protected List<Movie> doInBackground(String... url) {
             try {
-                String popularityUrl = JsonUtils.buildUrl(JsonUtils.POPULARITY);
-                mMovieList = JsonUtils.fetchMovieData(popularityUrl);
+                String moviesUrl = JsonUtils.buildUrl(url[0]);
+                mMovieList = JsonUtils.fetchMovieData(moviesUrl);
 
                 Thread.sleep(1000);
                 } catch (IOException e) {
