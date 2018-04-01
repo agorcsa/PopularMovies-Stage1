@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private static final String SHARED_PREFERENCES_KEY = "shared_preferences_key";
     private static final String SORT_KEY = "sort_key";
 
-    private static final String HIGHEST_RATED = "highest_rated";
+    private static final String HIGHEST_RATED = "top_rated";
     private static final String POPULAR = "popular";
 
     private RecyclerView mRecyclerView;
@@ -128,14 +128,22 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         switch (item.getItemId()) {
             case R.id.sort_highest_rated:
                     sortType = HIGHEST_RATED;
-                    JsonUtils.fetchMovieData(sortType);
-                    mMovieAdapter.notifyDataSetChanged();
+                try {
+                    JsonUtils.fetchMovieData(JsonUtils.buildUrl(sortType));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mMovieAdapter.notifyDataSetChanged();
                     item.setTitle(getResources().getString(R.string.sort_action_highest_rated));
                     return true;
             case R.id.sort_most_popular:
                     sortType = POPULAR;
-                    JsonUtils.fetchMovieData(sortType);
-                    mMovieAdapter.notifyDataSetChanged();
+                try {
+                    JsonUtils.fetchMovieData(JsonUtils.buildUrl(sortType));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mMovieAdapter.notifyDataSetChanged();
                     item.setTitle(getResources().getString(R.string.sort_action_most_popular));
                 return true;
         }
