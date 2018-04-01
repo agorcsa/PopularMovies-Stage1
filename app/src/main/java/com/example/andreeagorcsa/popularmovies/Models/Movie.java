@@ -1,4 +1,6 @@
-package com.example.andreeagorcsa.popularmovies;
+package com.example.andreeagorcsa.popularmovies.Models;
+
+import com.example.andreeagorcsa.popularmovies.Utils.JsonUtils;
 
 import org.parceler.Parcel;
 
@@ -15,7 +17,8 @@ public class Movie {
     public double userRating;
     public String releaseDate;
 
-    public Movie() {}
+    public Movie() {
+    }
 
     // Movie constructor
     public Movie(String originalTitle, String moviePoster, String plotSynopsis, double userRating, String releaseDate) {
@@ -34,6 +37,7 @@ public class Movie {
     public String getOriginalTitle() {
         return originalTitle;
     }
+
     public void setOriginalTitle(String originalTitle) {
         this.originalTitle = originalTitle;
     }
@@ -47,7 +51,7 @@ public class Movie {
     }
 
     public String getOverview() {
-        return "Plot Synopsis: "+ "\n" + plotSynopsis;
+        return "Plot Synopsis: " + "\n" + plotSynopsis;
     }
 
     public void setOverview(String overview) {
@@ -75,7 +79,7 @@ public class Movie {
     public String toString() {
         return "Movie{" +
                 "poster_path='" + finalUrl + '\'' +
-                ", overview='" + JsonUtils.OVERVIEW+ '\'' +
+                ", overview='" + JsonUtils.OVERVIEW + '\'' +
                 ", release_date='" + JsonUtils.RELEASE_DATE + '\'' +
                 ", original_title='" + JsonUtils.ORIGINAL_TITLE + '\'' +
                 ", vote_average='" + JsonUtils.VOTE_AVERAGE + '\'' +

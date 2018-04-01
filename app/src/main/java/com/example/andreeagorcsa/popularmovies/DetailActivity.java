@@ -1,21 +1,15 @@
 package com.example.andreeagorcsa.popularmovies;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.andreeagorcsa.popularmovies.Models.Movie;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.parceler.Parcels;
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +30,6 @@ public class DetailActivity extends AppCompatActivity {
     TextView userRating;
     @BindView(R.id.releaseDate)
     TextView releaseDate;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

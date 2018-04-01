@@ -1,4 +1,4 @@
-package com.example.andreeagorcsa.popularmovies;
+package com.example.andreeagorcsa.popularmovies.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.andreeagorcsa.popularmovies.Models.Movie;
+import com.example.andreeagorcsa.popularmovies.R;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
 
         public MovieItemViewHolder(View itemView) {
             super(itemView);
-            movieItemImageView = itemView.findViewById(R.id.imv_movie_item);
+            movieItemImageView = itemView.findViewById(R.id.movie_item_border);
             itemView.setOnClickListener(this);
         }
 
