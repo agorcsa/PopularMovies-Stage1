@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         if (sortType.equals(POPULAR)) {
             menu.getItem(0).setTitle(getResources().getString(R.string.sort_action_most_popular));
         } else {
-            menu.getItem(0).setTitle(getResources().getString(R.string.sort_action_highest_rated));
+            menu.getItem(1).setTitle(getResources().getString(R.string.sort_action_highest_rated));
         }
         return super.onCreateOptionsMenu(menu);
     }
