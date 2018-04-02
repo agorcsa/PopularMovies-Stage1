@@ -1,9 +1,13 @@
 package com.example.andreeagorcsa.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,10 +16,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies.Adapters.MovieAdapter;
 import com.example.andreeagorcsa.popularmovies.Models.Movie;
 import com.example.andreeagorcsa.popularmovies.Utils.JsonUtils;
+import com.squareup.picasso.Picasso;
 
 
 import org.parceler.Parcels;
@@ -39,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private MovieAdapter mMovieAdapter;
     private List<Movie> mMovieList;
     private String sortType;
+    private ImageView movieRoll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         setContentView(R.layout.activity_main);
         // Add a Toolbar
         setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
+        movieRoll = findViewById(R.id.movie_roll);
 
         mRecyclerView = findViewById(R.id.recycleView);
         mRecyclerView.setHasFixedSize(true);
@@ -56,8 +66,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         mMovieAdapter.setmMovieList(mMovieList);
         // Sort type is set to "popularity"
         sortType = getSharedPreferences(SHARED_PREFERENCES_KEY, 0).getString(SORT_KEY, JsonUtils.POPULARITY);
+
+        // Checking for Internet connection
+        ConnectivityManager connectivityManager =  (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (isConnected == true) {
         // Running a new AsyncTask
         new MovieAsyncTask().execute(JsonUtils.POPULARITY);
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet connection", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -180,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             if (movies != null) {
                 mMovieAdapter.setmMovieList(movies);
             } else {
-                throw new NullPointerException("Your movie list is empty");
+                Toast.makeText(getApplicationContext(), "Your movie list is empty", Toast.LENGTH_SHORT).show();
             }
         }
     }
