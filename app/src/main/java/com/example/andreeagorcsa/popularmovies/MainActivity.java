@@ -28,12 +28,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     public static final String LOG_TAG = MainActivity.class.getName();
     public static final String MOVIE_OBJECT_FOR_PARCEL = "movie_object";
-
     private static final String MOVIE_STATE_KEY = "movie_list";
     private static final String SHARED_PREFERENCES_KEY = "shared_preferences_key";
+    // Declaration of the sort keys as constants
     private static final String SORT_KEY = "sort_key";
     private static final String TOP_RATED = "top_rated";
     private static final String POPULAR = "popular";
+
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
     private List<Movie> mMovieList;
@@ -43,15 +44,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Add a Toolbar
         setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
 
         mRecyclerView = findViewById(R.id.recycleView);
         mRecyclerView.setHasFixedSize(true);
+        // Add a GridlayoutManager to the RecyclerView
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) ? 2 : 4));
         mMovieAdapter = new MovieAdapter(MainActivity.this);
         mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this));
         mMovieAdapter.setmMovieList(mMovieList);
+        // Sort type is set to "popularity"
         sortType = getSharedPreferences(SHARED_PREFERENCES_KEY, 0).getString(SORT_KEY, JsonUtils.POPULARITY);
+        // Running a new AsyncTask
         new MovieAsyncTask().execute(JsonUtils.POPULARITY);
     }
 
@@ -60,12 +65,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         super.onResume();
     }
 
+    /**
+     * save the movie list, by wrapping the list of movies into a parcel
+     *
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(MOVIE_STATE_KEY, Parcels.wrap(mMovieList));
     }
 
+    /**
+     * When the movies is being clicked, opens DetailActivity
+     * saves movie into a parcel which will be send to DetailActivity
+     *
+     * @param movie
+     */
     @Override
     public void onItemClick(Movie movie) {
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
@@ -75,6 +91,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         startActivity(intent);
     }
 
+    /**
+     * crete menu options("most popular" and "highest rated")
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -87,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Updates the sort_key to the current value after the user clicks one menu option
+     */
     private void updateSortKey() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -94,6 +119,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         editor.apply();
     }
 
+    /**
+     * Updates and displays the movie list,
+     * according to the menu option that has been clicked.
+     *
+     * @param item
+     * @return onOptionsItemSelected(item)
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -114,6 +146,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Runs the fetchMovieData(moviesUrl) method at the background thread
+     */
     class MovieAsyncTask extends AsyncTask<String, Void, List<Movie>> {
 
         @Override
