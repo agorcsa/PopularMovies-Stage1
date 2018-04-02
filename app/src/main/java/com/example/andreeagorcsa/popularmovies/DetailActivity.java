@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
+    // Binding Views with ButterKnife
     @BindView(R.id.originalTitle)
     TextView originalTitle;
     @BindView(R.id.moviePoster)
@@ -38,12 +39,15 @@ public class DetailActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        // Get the Movie Object from the Parcel
         Movie currentMovie = Parcels.unwrap(getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT_FOR_PARCEL));
 
+        // if the movie object is null, finish and display a toast message
         if (currentMovie == null) {
             closeOnError();
         }
 
+        // Display movie poster using Picasso
         populateDetailActivity(currentMovie);
         Picasso.with(this)
                 .load(currentMovie.getPosterPath())
@@ -55,6 +59,11 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Set the text parsed from Json into the corresponding TextView
+     *
+     * @param movie
+     */
     private void populateDetailActivity(Movie movie) {
 
         if (movie == null) {
