@@ -9,7 +9,7 @@ import org.parceler.Parcel;
  */
 @Parcel
 public class Movie {
-
+    //Declaration of the Movie variables
     public String originalTitle;
     public String moviePoster;
     public String finalUrl;
@@ -17,10 +17,19 @@ public class Movie {
     public double userRating;
     public String releaseDate;
 
+    // Empty constructor for Parcel
     public Movie() {
     }
 
-    // Movie constructor
+    /**
+     * Movie constructor
+     *
+     * @param originalTitle
+     * @param moviePoster
+     * @param plotSynopsis
+     * @param userRating
+     * @param releaseDate
+     */
     public Movie(String originalTitle, String moviePoster, String plotSynopsis, double userRating, String releaseDate) {
         this.originalTitle = originalTitle;
         this.moviePoster = moviePoster;
@@ -29,11 +38,17 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
+    /**
+     * Creates the Sring URL for the movie poster
+     *
+     * @return finalUrl
+     */
     public String createFinalMoviePosterUrl() {
         finalUrl = JsonUtils.BASE_URL.concat(JsonUtils.POSTER_SIZE).concat(JsonUtils.POSTER_PATH);
         return finalUrl;
     }
 
+    // Getter and Setter methods for the Movie parameters
     public String getOriginalTitle() {
         return originalTitle;
     }
@@ -74,7 +89,9 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    // Create a String representation of the Movie object
+    /**
+     * @return String representation of the Movie object
+     */
     @Override
     public String toString() {
         return "Movie{" +
