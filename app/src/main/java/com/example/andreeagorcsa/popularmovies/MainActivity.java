@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     }
 
     /**
-     * crete menu options("most popular" and "highest rated")
+     * crete menu options ("most popular" and "highest rated")
      *
      * @param menu
      * @return
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     /**
      * Updates and displays the movie list,
-     * according to the menu option that has been clicked.
+     * according to the menu option that has been clicked
      *
      * @param item
      * @return onOptionsItemSelected(item)
