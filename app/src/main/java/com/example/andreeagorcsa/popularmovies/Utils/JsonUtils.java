@@ -30,6 +30,7 @@ import com.example.andreeagorcsa.popularmovies.Models.Movie;
 
 public class JsonUtils {
 
+    //Declaration of the JSON constants
     public static final String LOG_TAG = JsonUtils.class.getName();
     public static final String BASE_URL = "https://api.themoviedb.org/3";
     public static final String QUERY_PARAM = "api_key";
