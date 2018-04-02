@@ -30,11 +30,11 @@ import com.example.andreeagorcsa.popularmovies.Models.Movie;
 
 public class JsonUtils {
 
-    //Declaration of the JSON constants
+    // Declaration of Json constants
     public static final String LOG_TAG = JsonUtils.class.getName();
     public static final String BASE_URL = "https://api.themoviedb.org/3";
     public static final String QUERY_PARAM = "api_key";
-    public static final String API_KEY = "";
+    public static final String API_KEY = "ff509255d5c46038414ba35e03b99862";
     public static final String RESULTS = "results";
     public static final String ORIGINAL_TITLE = "original_title";
     public static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
@@ -45,6 +45,14 @@ public class JsonUtils {
     public static final String VOTE_AVERAGE = "vote_average";
     public static final String RELEASE_DATE = "release_date";
 
+
+    /**
+     * Builds the Json String URL, according the given sortType
+     *
+     * @param sortType (popular or top_rated)
+     * @return String URL (parameter for the createUrl method)
+     * @throws IOException
+     */
     public static String buildUrl(String sortType) throws IOException {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
@@ -59,7 +67,10 @@ public class JsonUtils {
     }
 
     /**
-     * Returns new URL object from the given string URL.
+     * Creates an URL Object from the String URL
+     *
+     * @param stringUrl
+     * @return url Object
      */
     private static URL createUrl(String stringUrl) {
         URL url = null;
@@ -72,7 +83,11 @@ public class JsonUtils {
     }
 
     /**
-     * Make an HTTP request to the given URL and return a String as the response.
+     * Makes an HTTP request to the given URL Object
+     *
+     * @param url Object
+     * @return String jsonResponse
+     * @throws IOException
      */
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
@@ -113,8 +128,11 @@ public class JsonUtils {
     }
 
     /**
-     * Convert the {@link InputStream} into a String which contains the
-     * whole JSON response from the server.
+     * Converts the {@link InputStream} into a String which contains the whole JSON response from the server
+     *
+     * @param inputStream
+     * @return String output
+     * @throws IOException
      */
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
@@ -130,6 +148,12 @@ public class JsonUtils {
         return output.toString();
     }
 
+    /**
+     * Parses the json, creates the Movie Object, adds each movie object to the list
+     *
+     * @param json String
+     * @return movieList
+     */
 
     public static List<Movie> parseMovieJson(String json) {
 
@@ -173,12 +197,15 @@ public class JsonUtils {
     }
 
     /**
-     * Query the themovieDB API and return a list of {@link Movie} objects.
+     * Queries the themovieDB API
+     *
+     * @param requestUrl (return value of the buildUrl method)
+     * @return a list of {@link Movie} objects
      */
     public static List<Movie> fetchMovieData(String requestUrl) {
-        // Create URL object
+        // Creates URL object
         URL url = createUrl(requestUrl);
-        // Perform HTTP request to the URL and receive a JSON response back
+        // Performs HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
@@ -187,7 +214,7 @@ public class JsonUtils {
         }
         // Extract relevant fields from the JSON response and create a list of {@link News}s
         List<Movie> movies = parseMovieJson(jsonResponse);
-        // Return the list of {@link News}s
+        // Returns the list of {@link Movies}
         return movies;
     }
 }
