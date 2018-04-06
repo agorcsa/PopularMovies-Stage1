@@ -34,7 +34,7 @@ public class JsonUtils {
     public static final String LOG_TAG = JsonUtils.class.getName();
     public static final String BASE_URL = "https://api.themoviedb.org/3";
     public static final String QUERY_PARAM = "api_key";
-    public static final String API_KEY = "ff509255d5c46038414ba35e03b99862";
+    public static final String API_KEY = "your_key";
     public static final String RESULTS = "results";
     public static final String ORIGINAL_TITLE = "original_title";
     public static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
