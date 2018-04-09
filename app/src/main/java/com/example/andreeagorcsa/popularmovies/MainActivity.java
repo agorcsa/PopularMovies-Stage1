@@ -11,6 +11,7 @@ import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,7 +22,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies.Adapters.MovieAdapter;
+import com.example.andreeagorcsa.popularmovies.Adapters.ReviewAdapter;
+import com.example.andreeagorcsa.popularmovies.Adapters.TrailerAdapter;
 import com.example.andreeagorcsa.popularmovies.Models.Movie;
+import com.example.andreeagorcsa.popularmovies.Models.Review;
+import com.example.andreeagorcsa.popularmovies.Models.Trailer;
 import com.example.andreeagorcsa.popularmovies.Utils.JsonUtils;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +40,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.ItemClickHandler {
 
     public static final String LOG_TAG = MainActivity.class.getName();
+
     public static final String MOVIE_OBJECT_FOR_PARCEL = "movie_object";
+
     private static final String MOVIE_STATE_KEY = "movie_list";
     private static final String SHARED_PREFERENCES_KEY = "shared_preferences_key";
     // Declaration of the sort keys as constants
@@ -46,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
     private List<Movie> mMovieList;
+
     private String sortType;
     private ImageView movieRoll;
 
@@ -57,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
         movieRoll = findViewById(R.id.movie_roll);
 
+        // Movie RecyclerView, Adapter and LayoutManager
         mRecyclerView = findViewById(R.id.recycleView);
         mRecyclerView.setHasFixedSize(true);
         // Add a GridlayoutManager to the RecyclerView
@@ -79,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         } else {
             Toast.makeText(getApplicationContext(), "No Internet connection", Toast.LENGTH_LONG).show();
         }
+
     }
 
     @Override
