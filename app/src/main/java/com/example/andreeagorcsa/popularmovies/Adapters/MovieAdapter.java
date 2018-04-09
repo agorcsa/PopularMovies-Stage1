@@ -22,31 +22,52 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
     private List<Movie> mMovieList;
     private ItemClickHandler itemClickHandler;
 
+    /**
+     * Constructor for the MovieAdapter
+     * @param itemClickHandler
+     */
     public MovieAdapter(ItemClickHandler itemClickHandler) {
         this.itemClickHandler = itemClickHandler;
         mMovieList = new ArrayList<Movie>();
     }
 
+    /**
+     * Inflates the layout, and creates the ViewHolder object required from the MovieAdapter
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public MovieItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
         return new MovieItemViewHolder(v);
     }
 
+    /**
+     * updates the contents of the ItemView to reflect the movie in the given position.
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(MovieItemViewHolder holder, int position) {
         holder.bind(getMovieList().get(position));
     }
 
+    /**
+     * 
+     * @return
+     */
     @Override
     public int getItemCount() {
         return (mMovieList != null) ? mMovieList.size() : 0;
     }
 
+    // Getter method for the mMovieList
     private List<Movie> getMovieList() {
         return mMovieList;
     }
 
+    // Setter method for the mMovieList
     public void setmMovieList(List<Movie> mMovieList) {
         this.mMovieList = mMovieList;
         notifyDataSetChanged();
