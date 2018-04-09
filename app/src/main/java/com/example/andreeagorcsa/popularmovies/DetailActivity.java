@@ -1,15 +1,28 @@
 package com.example.andreeagorcsa.popularmovies;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.andreeagorcsa.popularmovies.Adapters.ReviewAdapter;
+import com.example.andreeagorcsa.popularmovies.Adapters.TrailerAdapter;
 import com.example.andreeagorcsa.popularmovies.Models.Movie;
+import com.example.andreeagorcsa.popularmovies.Models.Review;
+import com.example.andreeagorcsa.popularmovies.Models.Trailer;
+import com.example.andreeagorcsa.popularmovies.Utils.JsonUtils;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
+
+import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +32,19 @@ import butterknife.ButterKnife;
  */
 
 public class DetailActivity extends AppCompatActivity {
+
+    public final static String LOG_TAG = DetailActivity.class.getSimpleName();
+
+    private String mId;
+
+    List<Review> reviewList;
+    List<Trailer> trailerList;
+
+    ReviewAdapter mReviewAdapter;
+    TrailerAdapter mTrailerAdapter;
+
+    RecyclerView mReviewRecyclerView;
+    RecyclerView mTrailerRecyclerView;
 
     // Binding Views with ButterKnife
     @BindView(R.id.originalTitle)
@@ -32,10 +58,23 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.releaseDate)
     TextView releaseDate;
 
+    @BindView(R.id.reviewAuthor)
+    TextView reviewAuthor;
+    @BindView(R.id.reviewContent)
+    TextView reviewContent;
+
+    @BindView(R.id.trailerKey)
+    TextView trailerKey;
+    @BindView(R.id.trailerName)
+    TextView trailerName;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
 
         ButterKnife.bind(this);
 
@@ -47,11 +86,78 @@ public class DetailActivity extends AppCompatActivity {
             closeOnError();
         }
 
+        // Get the movieId from the Movie object
+        final int movieId = currentMovie.getMovieId();
+        final String id = Integer.toString(movieId);
+        mId = id;
+
+
         // Display movie poster using Picasso
-        populateDetailActivity(currentMovie);
+        populateMovie(currentMovie);
         Picasso.with(this)
                 .load(currentMovie.getPosterPath())
                 .into(moviePoster);
+
+        // Checking for Internet connection
+        ConnectivityManager connectivityManager =  (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        if (isConnected == true) {
+            new TrailerAsyncTask().execute(mId);
+            new ReviewAsyncTask().execute(mId);
+        }
+    }
+
+    // AsyncTask for extracting the Json data for the Reviews
+    class ReviewAsyncTask extends AsyncTask<String, Void, List<Review>> {
+
+        @Override
+        protected void onPreExecute() {
+            mReviewAdapter = (ReviewAdapter)mReviewRecyclerView.getAdapter();
+        }
+
+        @Override
+        protected List<Review> doInBackground(String... url) {
+            try {
+                String reviewUrl = JsonUtils.buildReviewUrl(mId);
+                reviewList = JsonUtils.parseReviewJson(reviewUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return reviewList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Review> reviews) {
+            reviewList = reviews;
+            mReviewAdapter.setReviewList(reviews);
+        }
+    }
+
+    class TrailerAsyncTask extends AsyncTask<String, Void, List<Trailer>> {
+
+        @Override
+        protected void onPreExecute() {
+            mTrailerAdapter = (TrailerAdapter)mTrailerRecyclerView.getAdapter();
+        }
+
+        @Override
+        protected List<Trailer> doInBackground(String... url) {
+            try {
+                String trailerUrl = JsonUtils.buildTrailerUrl(mId);
+                trailerList = JsonUtils.parseTrailerJson(trailerUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return trailerList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Trailer> trailers) {
+           trailerList = trailers;
+           mTrailerAdapter.setmTrailerList(trailerList);
+        }
     }
 
     private void closeOnError() {
@@ -64,7 +170,7 @@ public class DetailActivity extends AppCompatActivity {
      *
      * @param movie
      */
-    private void populateDetailActivity(Movie movie) {
+    private void populateMovie(Movie movie) {
 
         if (movie == null) {
             return;
@@ -74,5 +180,22 @@ public class DetailActivity extends AppCompatActivity {
         userRating.setText(movie.getVoteAverage());
         releaseDate.setText(movie.getReleaseDate());
     }
+
+    private void populateReview(Review review) {
+        if (review == null) {
+            return;
+        }
+        reviewAuthor.setText(review.getAuthor());
+        reviewContent.setText(review.getContent());
+    }
+
+    private void populateTrailer(Trailer trailer) {
+        if (trailer == null) {
+            return;
+        }
+        trailerName.setText(trailer.getName());
+        trailerKey.setText(trailer.getKey());
+    }
+
 }
 
