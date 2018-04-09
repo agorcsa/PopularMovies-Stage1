@@ -10,11 +10,13 @@ import org.parceler.Parcel;
 @Parcel
 public class Movie {
     //Declaration of the Movie variables
+    public int movieId;
     public String originalTitle;
     public String moviePoster;
     public String finalUrl;
     public String plotSynopsis;
     public double userRating;
+    public double popularity;
     public String releaseDate;
 
     // Empty constructor for Parcel
@@ -30,11 +32,13 @@ public class Movie {
      * @param userRating
      * @param releaseDate
      */
-    public Movie(String originalTitle, String moviePoster, String plotSynopsis, double userRating, String releaseDate) {
+    public Movie(int movieId, String originalTitle, String moviePoster, String plotSynopsis, double userRating, double popularity,String releaseDate) {
+        this.movieId = movieId;
         this.originalTitle = originalTitle;
         this.moviePoster = moviePoster;
         this.plotSynopsis = plotSynopsis;
         this.userRating = userRating;
+        this.popularity = popularity;
         this.releaseDate = releaseDate;
     }
 
@@ -49,6 +53,14 @@ public class Movie {
     }
 
     // Getter and Setter methods for the Movie parameters
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
     public String getOriginalTitle() {
         return originalTitle;
     }
