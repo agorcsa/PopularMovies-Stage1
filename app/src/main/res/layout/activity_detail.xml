@@ -47,6 +47,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size"
+            android:layout_marginBottom="@dimen/layout_margin"
             tools:text="@string/date" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reviewRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/layout_margin"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/trailerRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
+
 </ScrollView>
