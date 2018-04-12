@@ -22,6 +22,8 @@ import android.util.Log;
 
 import com.example.andreeagorcsa.popularmovies.MainActivity;
 import com.example.andreeagorcsa.popularmovies.Models.Movie;
+import com.example.andreeagorcsa.popularmovies.Models.Review;
+import com.example.andreeagorcsa.popularmovies.Models.Trailer;
 
 
 /**
@@ -30,12 +32,16 @@ import com.example.andreeagorcsa.popularmovies.Models.Movie;
 
 public class JsonUtils {
 
-    // Declaration of Json constants
     public static final String LOG_TAG = JsonUtils.class.getName();
+
+    // Declaration of the Movie Url constants
     public static final String BASE_URL = "https://api.themoviedb.org/3";
     public static final String QUERY_PARAM = "api_key";
-    public static final String API_KEY = "your_key";
+    public static final String API_KEY = "api_key=ff509255d5c46038414ba35e03b99862";
+
+    // Declaration of Json Movie constants
     public static final String RESULTS = "results";
+    public static final String MOVIE_ID = "id";
     public static final String ORIGINAL_TITLE = "original_title";
     public static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     public static final String POSTER_SIZE = "w185";
@@ -45,6 +51,15 @@ public class JsonUtils {
     public static final String VOTE_AVERAGE = "vote_average";
     public static final String RELEASE_DATE = "release_date";
 
+    // Declaration of the Json Trailer constants
+    public static final String TRAILER_KEY = "key";
+    public static final String TRAILER_NAME = "name";
+
+    public static final String QUERY_PARAM_TRAILER = "v";
+
+    // Declaration of Json Review constants
+    public static final String REVIEW_AUTHOR = "author";
+    public static final String REVIEW_CONTENT = "content";
 
     /**
      * Builds the Json String URL, according the given sortType
@@ -64,6 +79,48 @@ public class JsonUtils {
                 .build();
         String url = builder.build().toString();
         return url;
+    }
+
+    /**
+     * Builds the Json String Trailer Url, according to the movie id
+     *
+     * @param id, which represents the Movie id
+     * @return String trailerUrl
+     * @throws IOException
+     */
+    public static String buildTrailerUrl(String id) throws IOException {
+        Uri.Builder trailerBuilder = new Uri.Builder();
+        trailerBuilder.scheme("http")
+                .authority("api.themoviedb.org")
+                .appendPath("3")
+                .appendPath("movie")
+                .appendPath(id)
+                .appendPath("videos")
+                .appendQueryParameter(QUERY_PARAM, API_KEY)
+                .build();
+        String trailerUrl = trailerBuilder.build().toString();
+        return trailerUrl;
+    }
+
+    /**
+     * Builds the Json String Review Url, according to the movie id
+     *
+     * @param id, which represents the Movie id
+     * @return reviewUrl
+     * @throws IOException
+     */
+    public static String buildReviewUrl(String id) throws IOException {
+        Uri.Builder reviewBuilder = new Uri.Builder();
+        reviewBuilder.scheme("http")
+                .authority("api.themoviedb.org")
+                .appendPath("3")
+                .appendPath("movie")
+                .appendPath(id)
+                .appendPath("reviews")
+                .appendQueryParameter(QUERY_PARAM, API_KEY)
+                .build();
+        String reviewUrl = reviewBuilder.build().toString();
+        return reviewUrl;
     }
 
     /**
@@ -127,6 +184,7 @@ public class JsonUtils {
         return jsonResponse;
     }
 
+
     /**
      * Converts the {@link InputStream} into a String which contains the whole JSON response from the server
      *
@@ -172,6 +230,8 @@ public class JsonUtils {
             for (int i = 0; i < resultsArray.length(); i++) {
                 JSONObject movieObject = resultsArray.optJSONObject(i);
 
+                int id = movieObject.optInt(MOVIE_ID);
+
                 String originalTitle = movieObject.optString(ORIGINAL_TITLE);
 
                 String posterPath = movieObject.optString(POSTER_PATH);
@@ -186,7 +246,7 @@ public class JsonUtils {
 
                 String releaseDate = movieObject.optString(RELEASE_DATE);
 
-                Movie movie = new Movie(originalTitle, moviePoster, overview, voteAverage, releaseDate);
+                Movie movie = new Movie(id, originalTitle, moviePoster, overview, voteAverage, popularity, releaseDate);
                 movieList.add(movie);
 
             }
@@ -194,6 +254,78 @@ public class JsonUtils {
             e.printStackTrace();
         }
         return movieList;
+    }
+
+    /**
+     * Parses the json, creates a a new Trailer object, adds each review object to the list
+     * @param jsonTrailer
+     * @return trailerList
+     */
+    public static List<Trailer> parseTrailerJson(String jsonTrailer) {
+
+        //Checking if the json is empty
+        if (TextUtils.isEmpty(jsonTrailer)) {
+            return null;
+        }
+
+        List<Trailer> trailerList = new ArrayList<>();
+
+        try {
+            JSONObject rootTrailerObject = new JSONObject(jsonTrailer);
+            JSONArray resultsTrailerArray = rootTrailerObject.optJSONArray(RESULTS);
+
+            //Looping in the resultsArray
+            for (int i = 0; i < resultsTrailerArray.length(); i++) {
+                JSONObject trailerObject = resultsTrailerArray.optJSONObject(i);
+
+                String key = trailerObject.optString(TRAILER_KEY);
+
+                String name = trailerObject.optString(TRAILER_NAME);
+
+                Trailer trailer = new Trailer(key, name);
+
+                trailerList.add(trailer);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return trailerList;
+    }
+
+    /**
+     * Parses the json, creates a a new Review object, adds each review object to the list
+     * @param jsonReview
+     * @return reviewList
+     */
+    public static List<Review> parseReviewJson(String jsonReview) {
+
+        //Checking is the json is empty
+        if(TextUtils.isEmpty(jsonReview)){
+            return null;
+        }
+
+        List<Review> reviewList = new ArrayList<>();
+        try {
+            JSONObject rootReviewObject = new JSONObject(jsonReview);
+            JSONArray resultsReviewsArray = rootReviewObject.optJSONArray(RESULTS);
+
+            //Looping through the resultsArray
+            for (int i = 0; i<resultsReviewsArray.length(); i++) {
+                JSONObject reviewObject = resultsReviewsArray.optJSONObject(i);
+
+                String author = reviewObject.optString(REVIEW_AUTHOR);
+                String content = reviewObject.optString(REVIEW_CONTENT);
+
+                Review review = new Review(author, content);
+                reviewList.add(review);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return reviewList;
     }
 
     /**
@@ -216,5 +348,29 @@ public class JsonUtils {
         List<Movie> movies = parseMovieJson(jsonResponse);
         // Returns the list of {@link Movies}
         return movies;
+    }
+
+    public static List<Review> fetchReviewData(String reviewUrl) {
+        URL url = createUrl(reviewUrl);
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequest(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        List<Review> reviews = parseReviewJson(jsonResponse);
+        return reviews;
+    }
+
+    public static List<Trailer> fetchTrailerData(String trailerUrl) {
+        URL url = createUrl(trailerUrl);
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequest(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        List<Trailer> trailers = parseTrailerJson(jsonResponse);
+        return trailers;
     }
 }
