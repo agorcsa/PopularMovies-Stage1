@@ -1,8 +1,11 @@
 package com.example.andreeagorcsa.popularmovies;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +34,7 @@ import butterknife.ButterKnife;
  * Created by andreeagorcsa on 2018. 03. 05..
  */
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements TrailerAdapter.ItemClickListener{
 
     public final static String LOG_TAG = DetailActivity.class.getSimpleName();
 
@@ -81,6 +84,7 @@ public class DetailActivity extends AppCompatActivity {
         // Get the Movie Object from the Parcel
         Movie currentMovie = Parcels.unwrap(getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT_FOR_PARCEL));
 
+
         // if the movie object is null, finish and display a toast message
         if (currentMovie == null) {
             closeOnError();
@@ -98,6 +102,9 @@ public class DetailActivity extends AppCompatActivity {
                 .load(currentMovie.getPosterPath())
                 .into(moviePoster);
 
+        //populateReview(movieId);
+        //populateTrailer(movieId);
+
         // Checking for Internet connection
         ConnectivityManager connectivityManager =  (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
@@ -108,6 +115,17 @@ public class DetailActivity extends AppCompatActivity {
             new ReviewAsyncTask().execute(mId);
         }
     }
+
+    @Override
+    public void onItemClick(String key) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=" + key) );
+        try {
+            startActivity(intent);
+        }catch (ActivityNotFoundException ex) {
+            Toast.makeText(getApplicationContext(), "Could not play trailer", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     // AsyncTask for extracting the Json data for the Reviews
     class ReviewAsyncTask extends AsyncTask<String, Void, List<Review>> {
