@@ -68,7 +68,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         return trailerList.size();
     }
 
-    public int ItemClickListener {
+    public interface ItemClickListener {
         void onItemClick(String key);
     }
 
@@ -94,9 +94,10 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
                     .into(trailerIcon);
         }
 
+
         @Override
         public void onClick(View v) {
-            itemClickListener.onItemClick(trailerList.get(getAdapterPosition().getKey));
+            itemClickListener.onItemClick(trailerList.get(getAdapterPosition()).getKey());
         }
     }
 }
