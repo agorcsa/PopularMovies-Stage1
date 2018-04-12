@@ -50,6 +50,26 @@
             android:layout_marginBottom="@dimen/layout_margin"
             tools:text="@string/date" />
 
+        <TextView
+            android:id="@+id/reviewAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/reviewContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/trailerKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/trailerName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/reviewRecycleView"
             android:layout_width="match_parent"
