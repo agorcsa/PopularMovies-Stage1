@@ -193,7 +193,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                 //take the index 0 value of the String ellipse parameter no matter if it is "popular" or "top-rated"
                 String moviesUrl = JsonUtils.buildUrl(url[0]);
                 mMovieList = JsonUtils.fetchMovieData(moviesUrl);
-
                 Thread.sleep(1000);
             } catch (IOException e) {
                 e.printStackTrace();
