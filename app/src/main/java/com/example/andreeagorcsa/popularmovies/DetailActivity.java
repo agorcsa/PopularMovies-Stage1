@@ -139,7 +139,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         protected List<Review> doInBackground(String... url) {
             try {
                 String reviewUrl = JsonUtils.buildReviewUrl(mId);
-                reviewList = JsonUtils.parseReviewJson(reviewUrl);
+                reviewList = JsonUtils.fetchReviewData(reviewUrl);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -164,7 +164,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         protected List<Trailer> doInBackground(String... url) {
             try {
                 String trailerUrl = JsonUtils.buildTrailerUrl(mId);
-                trailerList = JsonUtils.parseTrailerJson(trailerUrl);
+                trailerList = JsonUtils.fetchTrailerData(trailerUrl);
             } catch (IOException e) {
                 e.printStackTrace();
             }
