@@ -215,22 +215,5 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         userRating.setText(movie.getVoteAverage());
         releaseDate.setText(movie.getReleaseDate());
     }
-
-    private void populateReview(Review review) {
-        if (review == null) {
-            return;
-        }
-        reviewAuthor.setText(review.getAuthor());
-        reviewContent.setText(review.getContent());
-    }
-
-    private void populateTrailer(Trailer trailer) {
-        if (trailer == null) {
-            return;
-        }
-        trailerName.setText(trailer.getName());
-        trailerKey.setText(trailer.getKey());
-    }
-
 }
 
