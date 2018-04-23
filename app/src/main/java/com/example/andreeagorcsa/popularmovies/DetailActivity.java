@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,7 +47,10 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     ReviewAdapter mReviewAdapter;
     TrailerAdapter mTrailerAdapter;
 
+    @BindView(R.id.reviewRecycleView)
     RecyclerView mReviewRecyclerView;
+
+    @BindView(R.id.trailerRecyclerView)
     RecyclerView mTrailerRecyclerView;
 
     // Binding Views with ButterKnife
@@ -70,7 +74,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     TextView trailerKey;
     @BindView(R.id.trailerName)
     TextView trailerName;
-
+    Context context;
 
 
     @Override
@@ -80,6 +84,19 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
 
         ButterKnife.bind(this);
+
+        mReviewRecyclerView.setHasFixedSize(true);
+        mReviewAdapter = new ReviewAdapter(context);
+        mReviewRecyclerView.setAdapter(mReviewAdapter);
+        RecyclerView.LayoutManager layoutManagerReview = new LinearLayoutManager(context);
+        mReviewRecyclerView.setLayoutManager(layoutManagerReview);
+
+        mTrailerRecyclerView.setHasFixedSize(true);
+        mTrailerAdapter = new TrailerAdapter(context);
+        mTrailerRecyclerView.setAdapter(mTrailerAdapter);
+        RecyclerView.LayoutManager layoutManagerTrailer = new LinearLayoutManager(context);
+        mTrailerRecyclerView.setLayoutManager(layoutManagerTrailer);
+
 
         // Get the Movie Object from the Parcel
         Movie currentMovie = Parcels.unwrap(getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT_FOR_PARCEL));
