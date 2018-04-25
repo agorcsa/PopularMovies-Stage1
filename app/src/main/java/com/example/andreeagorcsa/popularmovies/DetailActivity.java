@@ -65,15 +65,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     @BindView(R.id.releaseDate)
     TextView releaseDate;
 
-    @BindView(R.id.reviewAuthor)
-    TextView reviewAuthor;
-    @BindView(R.id.reviewContent)
-    TextView reviewContent;
-
-    @BindView(R.id.trailerKey)
-    TextView trailerKey;
-    @BindView(R.id.trailerName)
-    TextView trailerName;
     Context context;
 
 

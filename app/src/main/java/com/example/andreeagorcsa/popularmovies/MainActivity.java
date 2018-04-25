@@ -6,8 +6,12 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,7 +41,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.ItemClickHandler {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.ItemClickHandler, Tab1.OnFragmentInteractionListener, Tab2.OnFragmentInteractionListener, Tab3.OnFragmentInteractionListener{
 
     public static final String LOG_TAG = MainActivity.class.getName();
 
@@ -64,6 +68,46 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         // Add a Toolbar
         setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
         movieRoll = findViewById(R.id.movie_roll);
+
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("POPULAR"));
+        tabLayout.addTab(tabLayout.newTab().setText("TOP RATED"));
+        tabLayout.addTab(tabLayout.newTab().setText("FAVOURITE"));
+        tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
+
+        final ViewPager viewPager = findViewById(R.id.viewPager);
+        final PagerAdapter pagerAdapter = new PagerAdapter() {
+            @Override
+            public int getCount() {
+                return 0;
+            }
+
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return false;
+            }
+        };
+
+
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+            viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
 
         // Movie RecyclerView, Adapter and LayoutManager
         mRecyclerView = findViewById(R.id.recycleView);
@@ -175,6 +219,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         }
         updateSortKey();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     /**
