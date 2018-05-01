@@ -8,31 +8,26 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies.Adapters.MovieAdapter;
-import com.example.andreeagorcsa.popularmovies.Adapters.ReviewAdapter;
-import com.example.andreeagorcsa.popularmovies.Adapters.TrailerAdapter;
+import com.example.andreeagorcsa.popularmovies.Adapters.MoviesPagerAdapter;
 import com.example.andreeagorcsa.popularmovies.Models.Movie;
-import com.example.andreeagorcsa.popularmovies.Models.Review;
-import com.example.andreeagorcsa.popularmovies.Models.Trailer;
+import com.example.andreeagorcsa.popularmovies.Tabs.Tab1;
+import com.example.andreeagorcsa.popularmovies.Tabs.Tab2;
+import com.example.andreeagorcsa.popularmovies.Tabs.Tab3;
 import com.example.andreeagorcsa.popularmovies.Utils.JsonUtils;
-import com.squareup.picasso.Picasso;
 
 
 import org.parceler.Parcels;
@@ -76,20 +71,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = findViewById(R.id.viewPager);
-        final PagerAdapter pagerAdapter = new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return 0;
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return false;
-            }
-        };
+        final MoviesPagerAdapter moviesPagerAdapter = new MoviesPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(moviesPagerAdapter);
 
 
-        viewPager.setAdapter(pagerAdapter);
         viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
