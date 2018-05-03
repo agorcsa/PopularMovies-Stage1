@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.andreeagorcsa.popularmovies.Tabs.Tab1;
-import com.example.andreeagorcsa.popularmovies.Tabs.Tab2;
-import com.example.andreeagorcsa.popularmovies.Tabs.Tab3;
+import com.example.andreeagorcsa.popularmovies.TabFragments.Tab1;
+import com.example.andreeagorcsa.popularmovies.TabFragments.Tab2;
+import com.example.andreeagorcsa.popularmovies.TabFragments.Tab3;
 
 /**
  * Created by andreeagorcsa on 2018. 04. 23..

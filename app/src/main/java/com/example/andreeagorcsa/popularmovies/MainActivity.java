@@ -24,9 +24,9 @@ import android.widget.Toast;
 import com.example.andreeagorcsa.popularmovies.Adapters.MovieAdapter;
 import com.example.andreeagorcsa.popularmovies.Adapters.MoviesPagerAdapter;
 import com.example.andreeagorcsa.popularmovies.Models.Movie;
-import com.example.andreeagorcsa.popularmovies.Tabs.Tab1;
-import com.example.andreeagorcsa.popularmovies.Tabs.Tab2;
-import com.example.andreeagorcsa.popularmovies.Tabs.Tab3;
+import com.example.andreeagorcsa.popularmovies.TabFragments.Tab1;
+import com.example.andreeagorcsa.popularmovies.TabFragments.Tab2;
+import com.example.andreeagorcsa.popularmovies.TabFragments.Tab3;
 import com.example.andreeagorcsa.popularmovies.Utils.JsonUtils;
 
 

@@ -1,4 +1,4 @@
-package com.example.andreeagorcsa.popularmovies.Tabs;
+package com.example.andreeagorcsa.popularmovies.TabFragments;
 
 import android.content.Context;
 import android.net.Uri;
