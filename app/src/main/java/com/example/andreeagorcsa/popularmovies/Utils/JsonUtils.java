@@ -55,8 +55,6 @@ public class JsonUtils {
     public static final String TRAILER_KEY = "key";
     public static final String TRAILER_NAME = "name";
 
-    public static final String QUERY_PARAM_TRAILER = "v";
-
     // Declaration of Json Review constants
     public static final String REVIEW_AUTHOR = "author";
     public static final String REVIEW_CONTENT = "content";
