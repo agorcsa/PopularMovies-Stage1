@@ -1,6 +1,7 @@
 package com.example.andreeagorcsa.popularmovies;
 
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies.Adapters.ReviewAdapter;
 import com.example.andreeagorcsa.popularmovies.Adapters.TrailerAdapter;
+import com.example.andreeagorcsa.popularmovies.Data.MovieContract;
 import com.example.andreeagorcsa.popularmovies.Models.Movie;
 import com.example.andreeagorcsa.popularmovies.Models.Review;
 import com.example.andreeagorcsa.popularmovies.Models.Trailer;
@@ -38,6 +40,8 @@ import butterknife.ButterKnife;
 public class DetailActivity extends AppCompatActivity implements TrailerAdapter.ItemClickListener{
 
     public final static String LOG_TAG = DetailActivity.class.getSimpleName();
+    public final static String TRAILERS_STATE_KEY = "trailers_key";
+    public final static String REVIEWERS_STATE_KEY = "reviewers_key";
 
     private String mId;
 
@@ -65,7 +69,11 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     @BindView(R.id.releaseDate)
     TextView releaseDate;
 
+    private boolean isFavourite;
+
     Context context;
+
+
 
 
     @Override
@@ -87,6 +95,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         mTrailerRecyclerView.setAdapter(mTrailerAdapter);
         RecyclerView.LayoutManager layoutManagerTrailer = new LinearLayoutManager(context);
         mTrailerRecyclerView.setLayoutManager(layoutManagerTrailer);
+
+
 
 
         // Get the Movie Object from the Parcel
@@ -122,6 +132,13 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
             new TrailerAsyncTask().execute(mId);
             new ReviewAsyncTask().execute(mId);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(TRAILERS_STATE_KEY, Parcels.wrap(trailerList));
+        outState.putParcelable(REVIEWERS_STATE_KEY, Parcels.wrap(reviewList));
     }
 
     @Override
@@ -206,5 +223,18 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         userRating.setText(movie.getVoteAverage());
         releaseDate.setText(movie.getReleaseDate());
     }
+
+    private void addMovieToDatabase(Movie movie) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movie.getMovieId());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE, movie.getOriginalTitle());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_OVERVIEW, movie.getOverview());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, movie.getPosterPath());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, movie.getReleaseDate());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
+
+        getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, contentValues);
+    }
+
 }
 

@@ -24,7 +24,6 @@ public class MovieContentProvider extends ContentProvider{
     UriMatcher mUriMatcher = buildUriMatcher();
     MovieDbHelper movieDbHelper;
 
-
     private UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(MovieContract.AUTHORITY, MovieContract.PATH, MOVIE);
