@@ -13,12 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+        <!-- Firebase-->
         <activity
             android:name=".FirebaseAuth.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -36,16 +36,27 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <!-- MainActivity -->
         <activity
             android:name=".MainActivity"
             android:label="@string/app_main"
-            android:parentActivityName=".FirebaseAuth.SignupActivity">
+            android:parentActivityName=".FirebaseAuth.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FirebaseAuth.SignupActivity" />
+                android:value=".FirebaseAuth.LoginActivity" />
         </activity>
 
+        <!-- Detail Activity -->
         <activity android:name=".DetailActivity"
+            android:label="@string/app_detail"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <!-- Favourite Activity -->
+        <activity android:name=".FavouriteActivity"
             android:label="@string/app_detail"
             android:parentActivityName=".MainActivity">
             <meta-data
