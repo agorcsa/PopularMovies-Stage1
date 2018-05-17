@@ -7,7 +7,6 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,15 +23,11 @@ import android.widget.Toast;
 import com.example.andreeagorcsa.popularmovies.Adapters.MovieAdapter;
 import com.example.andreeagorcsa.popularmovies.Adapters.MoviesPagerAdapter;
 import com.example.andreeagorcsa.popularmovies.Models.Movie;
-import com.example.andreeagorcsa.popularmovies.TabFragments.Tab1;
-import com.example.andreeagorcsa.popularmovies.TabFragments.Tab2;
-import com.example.andreeagorcsa.popularmovies.TabFragments.Tab3;
 import com.example.andreeagorcsa.popularmovies.Utils.JsonUtils;
 
 
 import org.parceler.Parcels;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -211,42 +206,5 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     }
 
-    /**
-     * Runs the fetchMovieData(moviesUrl) method at the background thread
-     */
-    class MovieAsyncTask extends AsyncTask<String, Void, List<Movie>> {
-
-        @Override
-        protected void onPreExecute() {
-            mMovieAdapter = (MovieAdapter) mRecyclerView.getAdapter();
-        }
-
-        @Override
-        protected List<Movie> doInBackground(String... url) {
-            try {
-                //take the index 0 value of the String ellipse parameter no matter if it is "popular" or "top-rated"
-                String moviesUrl = JsonUtils.buildUrl(url[0]);
-                mMovieList = JsonUtils.fetchMovieData(moviesUrl);
-                Thread.sleep(1000);
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            return mMovieList;
-        }
-
-        @Override
-        protected void onPostExecute(List<Movie> movies) {
-            mMovieList = movies;
-            if (movies != null) {
-                mMovieAdapter.setmMovieList(movies);
-            } else {
-                Toast.makeText(getApplicationContext(), "Your movie list is empty", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 }
 
