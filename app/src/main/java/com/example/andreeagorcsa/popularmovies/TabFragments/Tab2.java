@@ -12,16 +12,6 @@ import com.example.andreeagorcsa.popularmovies.R;
 
 public class Tab2 extends BaseFragment {
 
-    public Tab2 () {}
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View tab2View = inflater.inflate(R.layout.fragment_tab2, container, false);
-
-        ImageView tab2ImageView = tab2View.findViewById(R.id.image_view_tab2_fragment);
-
-        return  tab2View;
+    public Tab2() {
     }
 }

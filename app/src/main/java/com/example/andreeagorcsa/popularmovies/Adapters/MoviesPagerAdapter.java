@@ -4,11 +4,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.andreeagorcsa.popularmovies.TabFragments.Tab1;
+import com.example.andreeagorcsa.popularmovies.TabFragments.Tab2;
+import com.example.andreeagorcsa.popularmovies.TabFragments.Tab3;
+
 /**
  * Created by andreeagorcsa on 2018. 04. 23..
  */
 
-public class MoviesPagerAdapter extends FragmentStatePagerAdapter{
+public class MoviesPagerAdapter extends FragmentStatePagerAdapter {
 
     int numberOfTabs;
 
@@ -18,6 +22,13 @@ public class MoviesPagerAdapter extends FragmentStatePagerAdapter{
         this.numberOfTabs = numberOfTabs;
     }
 
+
+    /**
+     * create the 3 fragments dynamically
+     *
+     * @param position
+     * @return null
+     */
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -26,10 +37,10 @@ public class MoviesPagerAdapter extends FragmentStatePagerAdapter{
                 return tab1;
             case 1:
                 Tab2 tab2 = new Tab2();
-               return tab2;
+                return tab2;
             case 2:
                 Tab3 tab3 = new Tab3();
-               return tab3;
+                return tab3;
             default:
                 return null;
         }

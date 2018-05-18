@@ -26,20 +26,26 @@ public class BaseFragment extends Fragment {
     private MovieAdapter mMovieAdapter;
     private List<Movie> mMovieList;
 
-    // Empty mandatory BaseFragment constructor for instantiating the fragment
+    // Empty mandatory constructor for instantiating the fragment
     public BaseFragment() {}
 
 
-    // Inflates the fragment layout
+    /**
+     * Inflates the fragment layout
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // Inflate the fragment layout
-        View rootView = inflater.inflate(R.layout.fragment_base_activity, container, false);
+        View rootView = inflater.inflate(R.layout.movie_item, container, false);
 
         // Get reference to the ImageView from the fragment layout
-        ImageView imageView = rootView.findViewById(R.id.fragment_image_view);
+        ImageView imageView = rootView.findViewById(R.id.movie_item_border);
 
         // Return the View that we have just created
         return rootView;
@@ -48,7 +54,7 @@ public class BaseFragment extends Fragment {
     /**
      * Runs the fetchMovieData(moviesUrl) method at the background thread
      */
-    class MovieAsyncTask extends AsyncTask<String, Void, List<Movie>> {
+    public class MovieAsyncTask extends AsyncTask<String, Void, List<Movie>> {
 
         @Override
         protected void onPreExecute() {

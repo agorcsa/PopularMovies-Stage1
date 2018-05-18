@@ -8,21 +8,20 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies.Adapters.MovieAdapter;
 import com.example.andreeagorcsa.popularmovies.Adapters.MoviesPagerAdapter;
 import com.example.andreeagorcsa.popularmovies.Models.Movie;
+import com.example.andreeagorcsa.popularmovies.TabFragments.BaseFragment;
+import com.example.andreeagorcsa.popularmovies.TabFragments.BaseFragment.MovieAsyncTask;
 import com.example.andreeagorcsa.popularmovies.Utils.JsonUtils;
 
 
@@ -31,8 +30,7 @@ import org.parceler.Parcels;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.ItemClickHandler, Tab1.OnFragmentInteractionListener, Tab2.OnFragmentInteractionListener, Tab3.OnFragmentInteractionListener{
-
+public class MainActivity extends AppCompatActivity implements MovieAdapter.ItemClickHandler {
     public static final String LOG_TAG = MainActivity.class.getName();
 
     public static final String MOVIE_OBJECT_FOR_PARCEL = "movie_object";
@@ -49,22 +47,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private List<Movie> mMovieList;
 
     private String sortType;
-    private ImageView movieRoll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // Add a Toolbar
         setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
-        movieRoll = findViewById(R.id.movie_roll);
 
+
+        // Add TabLayout (POPULAR, TOP RATED, FAVOURITE)
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("POPULAR"));
-        tabLayout.addTab(tabLayout.newTab().setText("TOP RATED"));
-        tabLayout.addTab(tabLayout.newTab().setText("FAVOURITE"));
         tabLayout.setTabGravity(tabLayout.GRAVITY_FILL);
 
+        // Add ViewPager
         final ViewPager viewPager = findViewById(R.id.viewPager);
         final MoviesPagerAdapter moviesPagerAdapter = new MoviesPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(moviesPagerAdapter);
@@ -88,6 +85,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             }
         });
 
+        // Create a new BaseFragment instance and display it using the FragmentManager
+        BaseFragment baseFragment = new BaseFragment();
+        // Use a FragmentManager and a FragmentManager to add the fragment on the screen
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_container, baseFragment)
+                .commit();
 
         // Movie RecyclerView, Adapter and LayoutManager
         mRecyclerView = findViewById(R.id.recycleView);
@@ -112,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         } else {
             Toast.makeText(getApplicationContext(), "No Internet connection", Toast.LENGTH_LONG).show();
         }
-
     }
 
     @Override
@@ -144,66 +148,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         bundle.putParcelable(MOVIE_OBJECT_FOR_PARCEL, Parcels.wrap(movie));
         intent.putExtras(bundle);
         startActivity(intent);
-    }
-
-    /**
-     * crete menu options ("most popular" and "highest rated")
-     *
-     * @param menu
-     * @return
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        if (sortType.equals(POPULAR)) {
-            menu.getItem(0).setTitle(getResources().getString(R.string.sort_action_most_popular));
-        } else {
-            menu.getItem(1).setTitle(getResources().getString(R.string.sort_action_highest_rated));
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    /**
-     * Updates the sort_key to the current value after the user clicks one menu option
-     */
-    private void updateSortKey() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, 0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(SORT_KEY, sortType);
-        editor.apply();
-    }
-
-    /**
-     * Updates and displays the movie list,
-     * according to the menu option that has been clicked
-     *
-     * @param item
-     * @return onOptionsItemSelected(item)
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.sort_highest_rated:
-                sortType = TOP_RATED;
-                new MovieAsyncTask().execute(TOP_RATED);
-                mMovieAdapter.notifyDataSetChanged();
-                item.setTitle(getResources().getString(R.string.sort_action_highest_rated));
-                return true;
-            case R.id.sort_most_popular:
-                sortType = POPULAR;
-                new MovieAsyncTask().execute(POPULAR);
-                mMovieAdapter.notifyDataSetChanged();
-                item.setTitle(getResources().getString(R.string.sort_action_most_popular));
-                return true;
-        }
-        updateSortKey();
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
 }
