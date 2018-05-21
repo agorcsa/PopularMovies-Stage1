@@ -94,29 +94,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                 .add(R.id.fragment_container, baseFragment)
                 .commit();
 
-        // Movie RecyclerView, Adapter and LayoutManager
-        mRecyclerView = findViewById(R.id.recycleView);
-        mRecyclerView.setHasFixedSize(true);
-        // Add a GridlayoutManager to the RecyclerView
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) ? 2 : 4));
-        mMovieAdapter = new MovieAdapter(MainActivity.this);
-        mRecyclerView.setAdapter(new MovieAdapter(MainActivity.this));
-        mMovieAdapter.setmMovieList(mMovieList);
         // Sort type is set to "popularity"
         sortType = getSharedPreferences(SHARED_PREFERENCES_KEY, 0).getString(SORT_KEY, JsonUtils.POPULARITY);
 
-        // Checking for Internet connection
-        ConnectivityManager connectivityManager =  (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        if (isConnected == true) {
-        // Running a new AsyncTask
-        new MovieAsyncTask().execute(JsonUtils.POPULARITY);
-        } else {
-            Toast.makeText(getApplicationContext(), "No Internet connection", Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
