@@ -48,6 +48,7 @@ public class JsonUtils {
     public static final String POSTER_PATH = "poster_path";
     public static final String OVERVIEW = "overview";
     public static final String POPULARITY = "popular";
+    public static final String TOP_RATED = "top_rated";
     public static final String VOTE_AVERAGE = "vote_average";
     public static final String RELEASE_DATE = "release_date";
 
