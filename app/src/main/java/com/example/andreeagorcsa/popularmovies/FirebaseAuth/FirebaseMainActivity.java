@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class FirebaseMain extends AppCompatActivity {
+public class FirebaseMainActivity extends AppCompatActivity {
 
     private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
             changeEmail, changePassword, sendEmail, remove, signOut;
@@ -51,7 +51,7 @@ public class FirebaseMain extends AppCompatActivity {
                 if (user == null) {
                     // user auth state is changed - user is null
                     // launch login activity
-                    startActivity(new Intent(FirebaseMain.this, LoginActivity.class));
+                    startActivity(new Intent(FirebaseMainActivity.this, LoginActivity.class));
                     finish();
                 }
             }
@@ -111,11 +111,11 @@ public class FirebaseMain extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(FirebaseMain.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(FirebaseMainActivity.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
                                         signOut();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
-                                        Toast.makeText(FirebaseMain.this, "Failed to update email!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(FirebaseMainActivity.this, "Failed to update email!", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
@@ -155,11 +155,11 @@ public class FirebaseMain extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(FirebaseMain.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(FirebaseMainActivity.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
                                             signOut();
                                             progressBar.setVisibility(View.GONE);
                                         } else {
-                                            Toast.makeText(FirebaseMain.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(FirebaseMainActivity.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
                                             progressBar.setVisibility(View.GONE);
                                         }
                                     }
@@ -196,10 +196,10 @@ public class FirebaseMain extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(FirebaseMain.this, "Reset password email is sent!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(FirebaseMainActivity.this, "Reset password email is sent!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
-                                        Toast.makeText(FirebaseMain.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(FirebaseMainActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
@@ -221,12 +221,12 @@ public class FirebaseMain extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(FirebaseMain.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(FirebaseMain.this, SignupActivity.class));
+                                        Toast.makeText(FirebaseMainActivity.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(FirebaseMainActivity.this, SignupActivity.class));
                                         finish();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
-                                        Toast.makeText(FirebaseMain.this, "Failed to delete your account!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(FirebaseMainActivity.this, "Failed to delete your account!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }

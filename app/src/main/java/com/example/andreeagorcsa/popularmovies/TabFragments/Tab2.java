@@ -27,7 +27,6 @@ public class Tab2 extends BaseFragment {
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
     private List<Movie> mMovieList;
-    private Context context;
 
     private String sortType;
 
@@ -39,7 +38,7 @@ public class Tab2 extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         // Add a GridlayoutManager to the RecyclerView
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context,(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) ? 2 : 4) );
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) ? 2 : 4) );
 
         // Add the MovieAdapter
         mMovieAdapter = new MovieAdapter((MovieAdapter.ItemClickHandler) Tab2.this);
@@ -47,7 +46,7 @@ public class Tab2 extends BaseFragment {
         mMovieAdapter.setmMovieList(mMovieList);
 
         // Checking for Internet connection
-        ConnectivityManager connectivityManager =  (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager =  (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
@@ -56,7 +55,7 @@ public class Tab2 extends BaseFragment {
             // Running a new AsyncTask with the key word POPULARITY
             new MovieAsyncTask().execute(JsonUtils.TOP_RATED);
         } else {
-            Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "No Internet connection", Toast.LENGTH_LONG).show();
         }
     }
 }
