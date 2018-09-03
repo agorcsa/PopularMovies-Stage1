@@ -48,6 +48,7 @@ public class MoviesPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return numberOfTabs;
+        return 3;
     }
+
 }
