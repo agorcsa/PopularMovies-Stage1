@@ -46,7 +46,7 @@ public class BaseFragment extends Fragment {
         // Inflate the fragment layout
         View rootView = inflater.inflate(R.layout.movie_item, container, false);
 
-        mRecyclerView = rootView.findViewById(R.id.recycleView);
+        mRecyclerView = rootView.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
 
         // Get reference to the ImageView from the fragment layout
