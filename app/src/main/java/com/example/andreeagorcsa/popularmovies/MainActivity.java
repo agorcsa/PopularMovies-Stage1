@@ -85,15 +85,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             }
         });
 
-        // Create a new BaseFragment instance and display it using the FragmentManager
-        BaseFragment baseFragment = new BaseFragment();
-        // Use a FragmentManager and a FragmentManager to add the fragment on the screen
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, baseFragment)
-                .commit();
-
         // Sort type is set to "popularity"
         sortType = getSharedPreferences(SHARED_PREFERENCES_KEY, 0).getString(SORT_KEY, JsonUtils.POPULARITY);
 
